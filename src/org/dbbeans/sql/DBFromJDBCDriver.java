@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * Use a direct instantiation of a JDBC driver to implements the DB interface.
  *
  * This class is not optimized in any way and does not implement any caching mechanism. It should therefore only
- * be used for testing or extremely simple applications requiring only a couple of database accesses.
+ * be used for testing or extremely simple applications requiring few database connexions.
  *
  * Your application should use a container providing DataSources and you should use the DBFromDataSource class instead of this one.
  */
