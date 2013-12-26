@@ -33,6 +33,7 @@ public class DBFromDataSource implements DB {
      * @return a Connection from the DataSource initialized by the constructor
      * @throws SQLException
      */
+    @Override
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }

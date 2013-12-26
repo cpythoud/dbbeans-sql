@@ -40,6 +40,7 @@ public class DBFromJDBCDriver implements DB {
      * @return a Connection from the JDBC driver manager; it's the caller responsibility to close that connection
      * @throws SQLException
      */
+    @Override
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
