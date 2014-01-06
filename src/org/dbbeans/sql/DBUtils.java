@@ -8,6 +8,9 @@ import java.sql.Statement;
 
 /**
  * This class contains static utility methods to help manage various aspects of JDBC programming.
+ *
+ * You usually don't need to call these method directly. Instead you would use an instance of the
+ * {@link DBAccess} class (which calls these function internally).
  */
 public class DBUtils {
 
