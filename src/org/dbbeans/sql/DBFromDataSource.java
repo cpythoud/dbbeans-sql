@@ -9,13 +9,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * This class implements the DB interface from a DataSource name.
+ * This class implements the {@link DB} interface from a DataSource name.
  */
 public class DBFromDataSource implements DB {
 
     private final DataSource dataSource;
 
     /**
+     * Creates a new DB object from a datasource.
      * @param dataSourceName the name of the DataSource to be used
      * @throws RuntimeException if the name cannot be resolved to a DataSource, the NamingException can be retrieved
      * from RuntimeException.getCause()
@@ -30,6 +31,7 @@ public class DBFromDataSource implements DB {
     }
 
     /**
+     * Returns a connection to the database.
      * @return a Connection from the DataSource initialized by the constructor
      * @throws SQLException
      */
