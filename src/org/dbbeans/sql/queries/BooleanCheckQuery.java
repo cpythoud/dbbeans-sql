@@ -12,9 +12,16 @@ import java.sql.SQLException;
  * a given situation is true if a certain query generate results (like a name is already present in the database)
  * and false otherwise (the name doesn't exist yet).
  *
- * The user of this class only need to implement the setupPreparedStatement part of the DBQueryProcess interface.
+ * The user of this class only need to implement the setupPreparedStatement part of the {@link org.dbbeans.sql.DBQueryProcess} interface.
  */
 public abstract class BooleanCheckQuery implements DBQuerySetupRetrieveData<Boolean> {
+
+    /**
+     * Check if the query produced results.
+     * @param rs the ResultSet from the execution of the query.
+     * @return true if the ResultSet contains results, false otherwise.
+     * @throws SQLException
+     */
     @Override
     public final Boolean processResultSet(final ResultSet rs) throws SQLException {
         return rs.next();
