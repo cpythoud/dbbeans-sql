@@ -7,13 +7,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by chris on 1/7/14.
+ * This class address the common case when you need to be sure that a String is unique in a database table column.
+ *
+ * For example: you need to ensure that usernames are unique in a login table before registering a new user.
  */
 public class UniqueStringQuery implements DBQuerySetupRetrieveData<Boolean> {
     final String s;
     final long id;
 
+    public UniqueStringQuery(final String s) {
+        this(s, 0);
+    }
+
     public UniqueStringQuery(final String s, final long id) {
+        if (id < 0)
+            throw new IllegalArgumentException("id should be >= 0");
+
         this.s = s;
         this.id = id;
     }
