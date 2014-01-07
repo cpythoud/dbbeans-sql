@@ -14,6 +14,7 @@ import java.sql.SQLException;
 public class SQLRuntimeException extends RuntimeException {
 
     /**
+     * Creates a SQLRuntimeException from a SQLException
      * @param ex the SQLException to be rethrown as a SQLRuntimeException
      */
     public SQLRuntimeException(final SQLException ex) {
@@ -21,8 +22,8 @@ public class SQLRuntimeException extends RuntimeException {
     }
 
     /**
-     * @return the SQLException that was passed as an argument to the constructor that accept an SQLException as argument
-     * or null if any other constructor inherited from RuntimeException was used instead.
+     * Returns the SQLException that was passed as an argument to the SQLRuntimeException constructor.
+     * @return SQLException passed as an argument to the constructor.
      */
     public SQLException getSQLException() {
         return (SQLException) getCause();
