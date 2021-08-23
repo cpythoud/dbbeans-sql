@@ -1,0 +1,9 @@
+1. deprecate interfaces that are going to be removed
+
+2. create release 0.9.1-RC, will be last Java 6 release, frozen there
+
+3. move project to Java 11,  modularize, create release 0.9.2-RC
+
+4. deploy in production, test with Beanmaker v2
+
+5. when no project needs Beanmaker v1 anymore, remove non-functional deprecated interfaces and turn it into v 1.0.0
