@@ -12,7 +12,7 @@
 
     <target name="compile" description="Compile code" depends="native2ascii">
         <mkdir dir="${build.classes}" />
-        <javac srcdir="${src-ascii.dir}" destdir="${build.classes}">
+        <javac srcdir="${src-ascii.dir}" destdir="${build.classes}" source="1.6" target="1.6" compiler="javac1.6">
             <classpath>
                 <fileset dir="${build.lib}">
                     <include name="**/*.jar"/>
@@ -35,6 +35,9 @@
     <target name="jar" description="Create file dbbeans-sql-(version).jar" depends="cleanup,compile">
         <java classname="org.dbbeans.sql.Version" classpath="${build.classes}" outputproperty="jar.version" />
         <jar destfile="${build.dir}/dbbeans-sql-${jar.version}.jar" basedir="${build.classes}" includes="org/dbbeans/sql/**/*" />
+        <manifest file="MANIFEST.MF">
+            <attribute name="Automatic-Module-Name" value="org.dbbeans.sql"/>
+        </manifest>
     </target>
 
     <target name="jar-src" description="Create file dbbeans-sql-(version).jar" depends="cleanup,compile">
@@ -43,6 +46,9 @@
             <fileset dir="${build.classes}" includes="org/dbbeans/sql/**/*" />
             <fileset dir="${src-ascii.dir}" includes="org/dbbeans/sql/**/*" />
         </jar>
+        <manifest file="MANIFEST.MF">
+            <attribute name="Automatic-Module-Name" value="org.dbbeans.sql"/>
+        </manifest>
     </target>
 
     <target name="doc" description="Create javadoc for this project" depends="native2ascii">
@@ -51,4 +57,3 @@
     </target>
 
 </project>
-
