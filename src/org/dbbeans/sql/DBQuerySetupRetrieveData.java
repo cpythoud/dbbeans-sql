@@ -6,4 +6,5 @@ package org.dbbeans.sql;
  *
  * You should create an anonymous inner class (Java) or a closure (Groovy).
  */
+@Deprecated
 public interface DBQuerySetupRetrieveData<T> extends DBQuerySetup, DBQueryRetrieveData<T> { }

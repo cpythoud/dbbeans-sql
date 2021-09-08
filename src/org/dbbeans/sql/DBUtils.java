@@ -97,6 +97,7 @@ public class DBUtils {
      * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetup, DBQueryProcess)
      * @see DBUtils#processQuery(java.sql.Connection, String, DBQueryProcess)
      */
+    @Deprecated
     public static void processQuery(final Connection conn, final String query, final DBQuerySetupProcess querySetupProcess) throws SQLException {
         final PreparedStatement stat = conn.prepareStatement(query);
         try {

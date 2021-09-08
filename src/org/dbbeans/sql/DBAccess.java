@@ -79,6 +79,7 @@ public class DBAccess {
      * @see DBAccess#processQuery(String, DBQuerySetup, DBQueryProcess)
      * @see DBAccess#processQuery(String, DBQueryProcess)
      */
+    @Deprecated
     public void processQuery(final String query, final DBQuerySetupProcess querySetupProcess) {
         Connection conn = null;
         try {

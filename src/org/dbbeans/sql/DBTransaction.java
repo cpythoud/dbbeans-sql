@@ -76,6 +76,7 @@ public class DBTransaction {
      * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryProcess)
      * @see DBTransaction#addQuery(String, DBQueryProcess)
      */
+    @Deprecated
     public void addQuery(final String query, final DBQuerySetupProcess querySetupProcess) {
         try {
             DBUtils.processQuery(conn, query, querySetupProcess);

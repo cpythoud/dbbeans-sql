@@ -1,6 +1,6 @@
-1. deprecate interfaces that are going to be removed
+1. OK deprecate interfaces that are going to be removed
 
-2. create release 0.9.1-RC, will be last Java 6 release, frozen there
+2. OK create release 0.9.1-RC, will be last Java 6 release, frozen there
 
 3. move project to Java 11,  modularize, create release 0.9.2-RC
 
