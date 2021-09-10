@@ -10,6 +10,7 @@ package org.dbbeans.sql;
  *
  * Objects of this class are immutable.
  */
+@Deprecated
 public class IdNamePair {
 
     /**
