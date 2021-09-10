@@ -2,7 +2,9 @@
 
 2. OK create release 0.9.1-RC, will be last Java 6 release, frozen there
 
-3. move project to Java 11,  modularize, create release 0.9.2-RC
+2b. Any further change will be put in 0.9.2-RC
+
+3. move project to Java 11,  modularize, create release 0.9.9-RC
 
 4. deploy in production, test with Beanmaker v2
 
