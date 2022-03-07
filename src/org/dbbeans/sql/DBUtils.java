@@ -92,32 +92,9 @@ public class DBUtils {
      * Process a query on the database.
      * @param conn database connection to use.
      * @param query SQL query.
-     * @param querySetupProcess an object implementing the {@link DBQuerySetupProcess} interface, used to set up parameters and process results from the query.
-     * @throws SQLException
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetup, DBQueryProcess)
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQueryProcess)
-     */
-    @Deprecated
-    public static void processQuery(final Connection conn, final String query, final DBQuerySetupProcess querySetupProcess) throws SQLException {
-        final PreparedStatement stat = conn.prepareStatement(query);
-        try {
-            querySetupProcess.setupPreparedStatement(stat);
-            final ResultSet rs = stat.executeQuery();
-            querySetupProcess.processResultSet(rs);
-            stat.close();
-        } finally {
-            preparedStatementSilentClose(stat);
-        }
-    }
-
-    /**
-     * Process a query on the database.
-     * @param conn database connection to use.
-     * @param query SQL query.
      * @param querySetup an object implementing the {@link DBQuerySetup} interface, used to set up parameters for the query.
      * @param queryProcess an object implementing the {@link DBQueryProcess} interface, used to process results from the query.
      * @throws SQLException
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetupProcess)
      * @see DBUtils#processQuery(java.sql.Connection, String, DBQueryProcess)
      */
     public static void processQuery(final Connection conn, final String query, final DBQuerySetup querySetup, final DBQueryProcess queryProcess) throws SQLException {
@@ -138,7 +115,6 @@ public class DBUtils {
      * @param query SQL query.
      * @param queryProcess an object implementing the {@link DBQueryProcess} interface, used to process results from the query.
      * @throws SQLException
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetupProcess)
      * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetup, DBQueryProcess)
      */
     public static void processQuery(final Connection conn, final String query, final DBQueryProcess queryProcess) throws SQLException {
@@ -156,39 +132,11 @@ public class DBUtils {
      * Process a query on the database.
      * @param conn database connection to use.
      * @param query SQL query.
-     * @param querySetupRetrieveData an object implementing the {@link DBQuerySetupRetrieveData} interface, used to set up parameters and get the query result.
-     * @param <T> type of query result.
-     * @return result of the query.
-     * @throws SQLException
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetup, DBQueryRetrieveData)
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQueryRetrieveData)
-     */
-    public static <T> T processQuery(final Connection conn, final String query, final DBQuerySetupRetrieveData<T> querySetupRetrieveData) throws SQLException {
-        final T data;
-
-        final PreparedStatement stat = conn.prepareStatement(query);
-        try {
-            querySetupRetrieveData.setupPreparedStatement(stat);
-            final ResultSet rs = stat.executeQuery();
-            data = querySetupRetrieveData.processResultSet(rs);
-            stat.close();
-        } finally {
-            preparedStatementSilentClose(stat);
-        }
-
-        return data;
-    }
-
-    /**
-     * Process a query on the database.
-     * @param conn database connection to use.
-     * @param query SQL query.
      * @param querySetup an object implementing the {@link DBQuerySetup} interface, used to set up parameters for the query.
      * @param queryRetrieveData an object implementing the {@link DBQueryRetrieveData} interface, used to get the query result.
      * @param <T> type of query result.
      * @return result of the query.
      * @throws SQLException
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetupRetrieveData)
      * @see DBUtils#processQuery(java.sql.Connection, String, DBQueryRetrieveData)
      */
     public static <T> T processQuery(final Connection conn, final String query, final DBQuerySetup querySetup, final DBQueryRetrieveData<T> queryRetrieveData) throws SQLException {
@@ -215,7 +163,6 @@ public class DBUtils {
      * @param <T> type of query result.
      * @return result of the query.
      * @throws SQLException
-     * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetupRetrieveData)
      * @see DBUtils#processQuery(java.sql.Connection, String, DBQuerySetup, DBQueryRetrieveData)
      */
     public static <T> T processQuery(final Connection conn, final String query, final DBQueryRetrieveData<T> queryRetrieveData) throws SQLException {

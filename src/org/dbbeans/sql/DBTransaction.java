@@ -69,30 +69,10 @@ public class DBTransaction {
 
     /**
      * Use this method to query the database.
-     * If you want to use java 8 lambda syntax, you should use {@link DBTransaction#addQuery(String, DBQuerySetup, DBQueryProcess)} instead.
-     * @param query SQL query.
-     * @param querySetupProcess an object implementing the {@link DBQuerySetupProcess} interface, used to setup the query parameters and process its results.
-     * @throws SQLRuntimeException if an SQLException is thrown during database access, it will be rethrown as a {@link SQLRuntimeException}.
-     * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryProcess)
-     * @see DBTransaction#addQuery(String, DBQueryProcess)
-     */
-    @Deprecated
-    public void addQuery(final String query, final DBQuerySetupProcess querySetupProcess) {
-        try {
-            DBUtils.processQuery(conn, query, querySetupProcess);
-        } catch (final SQLException ex) {
-            throw new SQLRuntimeException(ex);
-        }
-    }
-
-    /**
-     * Use this method to query the database.
-     * Alternatively, you can use the {@link DBTransaction#addQuery(String, DBQuerySetupProcess)} function, but you loose the option to use java 8 lambda syntax.
      * @param query SQL query.
      * @param querySetup an object implementing the {@link DBQuerySetup} interface, used to setup the query parameters.
      * @param queryProcess an object implementing the {@link DBQueryProcess} interface, used to process the query results.
      * @throws SQLRuntimeException if an SQLException is thrown during database access, it will be rethrown as a SQLRuntimeException.
-     * @see DBTransaction#addQuery(String, DBQuerySetupProcess)
      * @see DBTransaction#addQuery(String, DBQueryProcess)
      */
     public void addQuery(final String query, final DBQuerySetup querySetup, final DBQueryProcess queryProcess) {
@@ -107,7 +87,6 @@ public class DBTransaction {
      * Use this method to query the database.
      * @param query SQL query.
      * @param queryProcess an object implementing the {@link DBQueryProcess} interface, used to process the query results.
-     * @see DBTransaction#addQuery(String, DBQuerySetupProcess)
      * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryProcess)
      */
     public void addQuery(final String query, final DBQueryProcess queryProcess) {
@@ -120,35 +99,11 @@ public class DBTransaction {
 
     /**
      * Use this method to query the database.
-     * If you want to use java 8 lambda syntax, you should use {@link DBTransaction#addQuery(String, DBQuerySetup, DBQueryRetrieveData)} instead.
-     * @param query SQL query.
-     * @param querySetupRetrieveData an object implementing the {@link DBQuerySetupRetrieveData} interface, used to setup the query parameters and process its results.
-     * @param <T> type of query result.
-     * @return result of the query.
-     * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryRetrieveData)
-     * @see DBTransaction#addQuery(String, DBQueryRetrieveData)
-     */
-    public <T> T addQuery(final String query, final DBQuerySetupRetrieveData<T> querySetupRetrieveData) {
-        final T data;
-
-        try {
-            data = DBUtils.processQuery(conn, query, querySetupRetrieveData);
-        } catch (final SQLException ex) {
-            throw new SQLRuntimeException(ex);
-        }
-
-        return data;
-    }
-
-    /**
-     * Use this method to query the database.
-     * Alternatively, you can use the {@link DBTransaction#addQuery(String, DBQuerySetupRetrieveData)} function, but you loose the option to use java 8 lambda syntax.
      * @param query SQL query.
      * @param querySetup an object implementing the {@link DBQuerySetup} interface, used to setup the query parameters.
      * @param queryRetrieveData an object implementing the {@link DBQueryRetrieveData} interface, used to process the query results.
      * @param <T> type of query result.
      * @return result of the query.
-     * @see DBTransaction#addQuery(String, DBQuerySetupRetrieveData)
      * @see DBTransaction#addQuery(String, DBQueryRetrieveData)
      */
     public <T> T addQuery(final String query, final DBQuerySetup querySetup, final DBQueryRetrieveData<T> queryRetrieveData) {
@@ -169,7 +124,6 @@ public class DBTransaction {
      * @param queryRetrieveData an object implementing the {@link DBQueryRetrieveData} interface, used to process the query results.
      * @param <T> type of query result.
      * @return result of the query.
-     * @see DBTransaction#addQuery(String, DBQuerySetupRetrieveData)
      * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryRetrieveData)
      */
     public <T> T addQuery(final String query, final DBQueryRetrieveData<T> queryRetrieveData) {
