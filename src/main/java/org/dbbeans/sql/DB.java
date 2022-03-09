@@ -6,8 +6,8 @@ import java.sql.SQLException;
 /**
  * Interface to represent a database.
  *
- * Implementations should be immutable, therefore an application should never need to create more than one such instance to represent the same database,
- * unless there are differences in access rights.
+ * Implementations should be immutable, therefore an application should never need to create more than
+ * one such instance to represent the same database, unless there are differences in access rights.
  */
 public interface DB {
 

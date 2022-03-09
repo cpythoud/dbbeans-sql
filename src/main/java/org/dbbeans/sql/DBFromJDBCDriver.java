@@ -25,14 +25,14 @@ public class DBFromJDBCDriver implements DB {
      * @param username to access the database
      * @param password to access the database
      */
-    public DBFromJDBCDriver(final String driver, final String url, final String username, final String password) {
+    public DBFromJDBCDriver(String driver, String url, String username, String password) {
         this.url = url;
         this.username = username;
         this.password = password;
 
         try {
             Class.forName(driver);
-        } catch (final ClassNotFoundException cnfex) {
+        } catch (ClassNotFoundException cnfex) {
             throw new RuntimeException(cnfex.getMessage(), cnfex);
         }
     }
@@ -46,4 +46,5 @@ public class DBFromJDBCDriver implements DB {
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
+
 }

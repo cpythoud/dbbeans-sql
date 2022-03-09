@@ -21,7 +21,7 @@ public class DBFromDataSource implements DB {
      * @throws RuntimeException if the name cannot be resolved to a DataSource, the NamingException can be retrieved
      * from RuntimeException.getCause()
      */
-    public DBFromDataSource(final String dataSourceName) {
+    public DBFromDataSource(String dataSourceName) {
         try {
             InitialContext ctx = new InitialContext();
             dataSource = (DataSource) ctx.lookup(dataSourceName);
@@ -33,10 +33,11 @@ public class DBFromDataSource implements DB {
     /**
      * Returns a connection to the database.
      * @return a Connection from the DataSource initialized by the constructor
-     * @throws SQLException
+     * @throws SQLException if a database error occurs
      */
     @Override
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
+
 }

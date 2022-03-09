@@ -4,24 +4,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * This class is used to encapsulate JDBC transactions.
+ * This class is used to encapsulate JDBC database access.
  */
-public class DBTransaction {
+public class DBAccess {
 
-    final DB db;
-    final Connection conn;
+    private final DB db;
 
     /**
      * @param db a {@link DB} object to obtain connections to the database.
      */
-    public DBTransaction(final DB db) {
+    public DBAccess(DB db) {
         this.db = db;
-        try {
-            conn = db.getConnection();
-            conn.setAutoCommit(false);
-        } catch (final SQLException ex) {
-            throw new SQLRuntimeException(ex);
-        }
     }
 
     /**
@@ -31,15 +24,20 @@ public class DBTransaction {
      * @param querySetup an object implementing the {@link DBQuerySetup} interface, used to setup the parameters for the update.
      * @return the number of database rows affected by the update.
      * @throws SQLRuntimeException if an SQLException is thrown during database access, it will be rethrown as a SQLRuntimeException.
-     * @see DBTransaction#addRecordCreation(String, DBQuerySetup)
+     * @see DBAccess#createRecord(String, DBQuerySetup)
      */
-    public int addUpdate(final String query, final DBQuerySetup querySetup) {
-        final int count;
+    public int processUpdate(String query, DBQuerySetup querySetup) {
+        int count;
 
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             count = DBUtils.processUpdate(conn, query, querySetup);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
 
         return count;
@@ -53,15 +51,20 @@ public class DBTransaction {
      * @return the id of the newly created row as a long; if you need an int, you will have to cast it.
      * @throws SQLRuntimeException if an SQLException is thrown during database access, it will be rethrown as a SQLRuntimeException.
      * @throws IllegalArgumentException if the number of rows affected in the database is not strictly one.
-     * @see DBTransaction#addUpdate(String, DBQuerySetup)
+     * @see DBAccess#processUpdate(String, DBQuerySetup)
      */
-    public long addRecordCreation(final String query, final DBQuerySetup querySetup) {
-        final long id;
+    public long createRecord(String query, DBQuerySetup querySetup) {
+        long id;
 
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             id = DBUtils.createRecord(conn, query, querySetup);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
 
         return id;
@@ -73,13 +76,18 @@ public class DBTransaction {
      * @param querySetup an object implementing the {@link DBQuerySetup} interface, used to setup the query parameters.
      * @param queryProcess an object implementing the {@link DBQueryProcess} interface, used to process the query results.
      * @throws SQLRuntimeException if an SQLException is thrown during database access, it will be rethrown as a SQLRuntimeException.
-     * @see DBTransaction#addQuery(String, DBQueryProcess)
+     * @see DBAccess#processQuery(String, DBQueryProcess)
      */
-    public void addQuery(final String query, final DBQuerySetup querySetup, final DBQueryProcess queryProcess) {
+    public void processQuery(String query, DBQuerySetup querySetup, DBQueryProcess queryProcess) {
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             DBUtils.processQuery(conn, query, querySetup, queryProcess);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
     }
 
@@ -87,13 +95,18 @@ public class DBTransaction {
      * Use this method to query the database.
      * @param query SQL query.
      * @param queryProcess an object implementing the {@link DBQueryProcess} interface, used to process the query results.
-     * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryProcess)
+     * @see DBAccess#processQuery(String, DBQuerySetup, DBQueryProcess)
      */
-    public void addQuery(final String query, final DBQueryProcess queryProcess) {
+    public void processQuery(String query, DBQueryProcess queryProcess) {
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             DBUtils.processQuery(conn, query, queryProcess);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
     }
 
@@ -104,15 +117,20 @@ public class DBTransaction {
      * @param queryRetrieveData an object implementing the {@link DBQueryRetrieveData} interface, used to process the query results.
      * @param <T> type of query result.
      * @return result of the query.
-     * @see DBTransaction#addQuery(String, DBQueryRetrieveData)
+     * @see DBAccess#processQuery(String, DBQueryRetrieveData)
      */
-    public <T> T addQuery(final String query, final DBQuerySetup querySetup, final DBQueryRetrieveData<T> queryRetrieveData) {
-        final T data;
+    public <T> T processQuery(String query, DBQuerySetup querySetup, DBQueryRetrieveData<T> queryRetrieveData) {
+        T data;
 
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             data = DBUtils.processQuery(conn, query, querySetup, queryRetrieveData);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
 
         return data;
@@ -121,18 +139,23 @@ public class DBTransaction {
     /**
      * Use this method to query the database.
      * @param query SQL query.
-     * @param queryRetrieveData an object implementing the {@link DBQueryRetrieveData} interface, used to process the query results.
+     * @param retrieveData an object implementing the {@link DBQueryRetrieveData} interface, used to process the query results.
      * @param <T> type of query result.
      * @return result of the query.
-     * @see DBTransaction#addQuery(String, DBQuerySetup, DBQueryRetrieveData)
+     * @see DBAccess#processQuery(String, DBQuerySetup, DBQueryRetrieveData)
      */
-    public <T> T addQuery(final String query, final DBQueryRetrieveData<T> queryRetrieveData) {
-        final T data;
+    public <T> T processQuery(String query, DBQueryRetrieveData<T> retrieveData) {
+        T data;
 
+        Connection conn = null;
         try {
-            data = DBUtils.processQuery(conn, query, queryRetrieveData);
-        } catch (final SQLException ex) {
+            conn = db.getConnection();
+            data = DBUtils.processQuery(conn, query, retrieveData);
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
 
         return data;
@@ -143,11 +166,16 @@ public class DBTransaction {
      * @param query SQL query.
      * @param updates an object implementing the {@link DBUpdates} interface, used to execute the updates.
      */
-    public void addUpdates(final String query, final DBUpdates updates) {
+    public void processUpdates(String query, DBUpdates updates) {
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             DBUtils.processUpdates(conn, query, updates);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
     }
 
@@ -157,15 +185,20 @@ public class DBTransaction {
      * @param queries an object implementing the {@link DBQueries} interface, used to process the queries result.
      * @param <T> type of queries result.
      * @return result of the queries.
-     * @see DBTransaction#addQueries(String, DBQueriesNoReturn)
+     * @see DBAccess#processQueries(String, DBQueriesNoReturn)
      */
-    public <T> T addQueries(final String query, final DBQueries<T> queries) {
-        final T data;
+    public <T> T processQueries(String query, DBQueries<T> queries) {
+        T data;
 
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             data = DBUtils.processQueries(conn, query, queries);
-        } catch (final SQLException ex) {
+            conn.close();
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
+        } finally {
+            DBUtils.connectionSilentClose(conn);
         }
 
         return data;
@@ -175,38 +208,15 @@ public class DBTransaction {
      * Use this method to process multiple queries on the database without returning results to the caller.
      * @param query SQL query.
      * @param queries an object implementing the {@link DBQueriesNoReturn} interface, used to process the queries result.
-     * @see  DBTransaction#addQueries(String, DBQueries)
+     * @see  DBAccess#processQueries(String, DBQueries)
      */
-    public void addQueries(final String query, final DBQueriesNoReturn queries) {
+    public void processQueries(String query, DBQueriesNoReturn queries) {
+        Connection conn = null;
         try {
+            conn = db.getConnection();
             DBUtils.processQueries(conn, query, queries);
-        } catch (final SQLException ex) {
-            throw new SQLRuntimeException(ex);
-        }
-    }
-
-    /**
-     * Use this function to commit the changes to the database, once your are done setting up the transaction with this class other functions.
-     */
-    public void commit() {
-        try {
-            conn.commit();
             conn.close();
-        } catch (final SQLException ex) {
-            throw new SQLRuntimeException(ex);
-        } finally {
-            DBUtils.connectionSilentClose(conn);
-        }
-    }
-
-    /**
-     * Roll back all changes previously set up via this class other functions.
-     */
-    public void rollback() {
-        try {
-            conn.rollback();
-            conn.close();
-        } catch (final SQLException ex) {
+        } catch (SQLException ex) {
             throw new SQLRuntimeException(ex);
         } finally {
             DBUtils.connectionSilentClose(conn);

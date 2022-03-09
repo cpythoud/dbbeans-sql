@@ -3,5 +3,6 @@
 build/
 javadoc/
 src-ascii/
+target/
 MANIFEST.MF
 TODO.txt

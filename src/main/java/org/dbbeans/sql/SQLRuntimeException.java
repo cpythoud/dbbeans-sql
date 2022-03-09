@@ -17,7 +17,7 @@ public class SQLRuntimeException extends RuntimeException {
      * Creates a SQLRuntimeException from a SQLException
      * @param ex the SQLException to be rethrown as a SQLRuntimeException
      */
-    public SQLRuntimeException(final SQLException ex) {
+    public SQLRuntimeException(SQLException ex) {
         super(ex.getMessage(), ex);
     }
 
