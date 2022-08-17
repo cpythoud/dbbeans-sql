@@ -31,6 +31,14 @@ public class DBFromDataSource implements DB {
     }
 
     /**
+     * Creates a new DB object from a datasource.
+     * @param dataSource the DataSource to be used
+     */
+    public DBFromDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    /**
      * Returns a connection to the database.
      * @return a Connection from the DataSource initialized by the constructor
      * @throws SQLException if a database error occurs
